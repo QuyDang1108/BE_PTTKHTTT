@@ -25,7 +25,7 @@ public class PaymentReceipt {
     private EPaymentType paymentType;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "regis_form_id", nullable = false)
+    @JoinColumn(name = "regis_form_id", nullable = true)
     private RegisForm regisForm;
 
     @ManyToOne(fetch = FetchType.LAZY)

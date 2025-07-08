@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Entity
 @Data
 @Builder
@@ -16,7 +18,7 @@ public class RegisForm {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "regis_form_id")
     private Integer id;
-    private String dor; // ngay dang ki
+    private LocalDate dor; // ngay dang ki
     private String status;
 
     @OneToOne(mappedBy = "regisForm")
@@ -29,4 +31,8 @@ public class RegisForm {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "staff id", nullable = false)
     private Staff staff;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "test_id", nullable = false)
+    private TestSchedule testSchedule;
 }

@@ -30,6 +30,9 @@ public class TestSchedule {
     @OneToMany(mappedBy = "testSchedule", fetch = FetchType.LAZY)
     private List<ExaminationPermit> examinationPermits;
 
+    @OneToMany(mappedBy = "testSchedule", fetch = FetchType.LAZY)
+    private List<RegisForm> regisForms;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "certification_id", nullable = false)
     private Certification certification;

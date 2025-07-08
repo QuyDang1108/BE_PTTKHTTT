@@ -83,8 +83,8 @@ public class DataInitializer {
             ts1.setCertification(cert1);
 
             TestSchedule ts2 = new TestSchedule();
-            ts1.setDate(LocalDate.of(2025, 8, 16)); // hoặc LocalDate.parse("2025-08-15")
-            ts1.setTime(LocalTime.of(10, 30));
+            ts2.setDate(LocalDate.of(2025, 8, 14)); // hoặc LocalDate.parse("2025-08-15")
+            ts2.setTime(LocalTime.of(10, 30));
             ts2.setRoom("B202");
             ts2.setMaxCount(25);
             ts2.setRegistrationCount(0);
@@ -138,16 +138,18 @@ public class DataInitializer {
 
             // === 5. RegisForm ===
             RegisForm rf1 = new RegisForm();
-            rf1.setDor("2025-07-01");
+            rf1.setDor(LocalDate.of(2025, 5, 16));
             rf1.setStatus("Đã xác nhận");
             rf1.setRegistrant(reg1);
             rf1.setStaff(staff2); // Nhân viên tiếp nhận
+            rf1.setTestSchedule(ts1);
 
             RegisForm rf2 = new RegisForm();
-            rf2.setDor("2025-07-02");
+            rf2.setDor(LocalDate.of(2025, 7, 2));
             rf2.setStatus("Đang xử lý");
             rf2.setRegistrant(reg2);
             rf2.setStaff(staff2); // Nhân viên tiếp nhận
+            rf2.setTestSchedule(ts2);
 
             regisFormRepo.saveAll(List.of(rf1, rf2));
 

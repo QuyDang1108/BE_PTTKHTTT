@@ -13,7 +13,7 @@ public enum ErrorCode {
 
     private final int code;
     private final String message;
-    private final HttpStatus status; // ✅ Dùng HttpStatus thay vì HttpStatusCode
+    private final HttpStatus status;
 
     ErrorCode(int code, String message, HttpStatus status) {
         this.code = code;

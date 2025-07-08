@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @Entity
@@ -18,7 +20,8 @@ public class TestSchedule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "test_id")
     private Integer id;
-    private String dot;
+    private LocalDate date;
+    private LocalTime time;
     private String room;
     private int registrationCount;
     private int maxCount;

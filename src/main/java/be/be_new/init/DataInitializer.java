@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @Configuration
@@ -73,7 +74,8 @@ public class DataInitializer {
 
             // === 3. TestSchedule ===
             TestSchedule ts1 = new TestSchedule();
-            ts1.setDot("2025-08-15");
+            ts1.setDate(LocalDate.of(2025, 8, 15)); // hoặc LocalDate.parse("2025-08-15")
+            ts1.setTime(LocalTime.of(8, 30));
             ts1.setRoom("A101");
             ts1.setMaxCount(30);
             ts1.setRegistrationCount(0);
@@ -81,7 +83,8 @@ public class DataInitializer {
             ts1.setCertification(cert1);
 
             TestSchedule ts2 = new TestSchedule();
-            ts2.setDot("2025-08-16");
+            ts1.setDate(LocalDate.of(2025, 8, 16)); // hoặc LocalDate.parse("2025-08-15")
+            ts1.setTime(LocalTime.of(10, 30));
             ts2.setRoom("B202");
             ts2.setMaxCount(25);
             ts2.setRegistrationCount(0);

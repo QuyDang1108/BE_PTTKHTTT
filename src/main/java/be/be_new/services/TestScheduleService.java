@@ -10,7 +10,6 @@ import be.be_new.repository.CertificationRepository;
 import be.be_new.repository.TestScheduleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;

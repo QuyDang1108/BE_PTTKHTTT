@@ -1,7 +1,6 @@
 package be.be_new.entity;
 
 import be.be_new.enums.EPaymentType;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

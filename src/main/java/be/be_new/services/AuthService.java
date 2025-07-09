@@ -47,6 +47,8 @@ public class AuthService {
         return AuthenticationResponse.builder()
                 .token(token)
                 .authentication(true)
+                .staffId(user.getId())
+                .role(user.getRole().toString())
                 .build();
     }
 

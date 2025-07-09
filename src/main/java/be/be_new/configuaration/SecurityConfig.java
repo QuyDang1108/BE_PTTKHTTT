@@ -25,7 +25,7 @@ import javax.crypto.spec.SecretKeySpec;
 public class SecurityConfig {
 
     private static final String[] PUBLIC_ENDPOINTS = {
-            "/logins/**",
+            "/logins",
             "/schedules/**",
             "/payments/**",
             "/regis/**",

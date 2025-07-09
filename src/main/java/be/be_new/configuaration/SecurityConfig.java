@@ -29,6 +29,7 @@ public class SecurityConfig {
             "/schedules",
             "/payments",
             "/regis",
+            "/certifications",
     };
 
     private static final String[] SWAGGER_WHITELIST = {

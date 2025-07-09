@@ -34,7 +34,4 @@ public class Registrant {
 
     @OneToMany(mappedBy = "registrant", fetch = FetchType.LAZY)
     private List<RegisForm> regisForms;
-
-    @OneToMany(mappedBy = "registrant", fetch = FetchType.LAZY)
-    private List<Candidate> candidates;
 }

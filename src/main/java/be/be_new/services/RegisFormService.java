@@ -25,7 +25,7 @@ public class RegisFormService {
 
     @Transactional
     public RegisFormFullResponse createOrUpdate(RegisFormFullRequest request) {
-        // Step 1: Lấy hoặc tạo mới Registrant
+        // Step 1: Lấy hoặc tạo Registrant
         Registrant registrant = Optional.ofNullable(request.getRegistrant().getId())
                 .flatMap(registrantRepository::findById)
                 .orElseGet(Registrant::new);
@@ -43,9 +43,34 @@ public class RegisFormService {
 
         registrant = registrantRepository.save(registrant);
 
-        // Step 2: Cập nhật danh sách Candidate (xóa cũ, thêm mới)
-        candidateRepository.deleteAll(registrant.getCandidates()); // hoặc soft-delete nếu cần
-        Registrant finalRegistrant = registrant;
+        // Step 2: Lấy Staff, TestSchedule
+        Staff staff = staffRepository.findById(request.getStaffId())
+                .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND_DATA));
+        TestSchedule testSchedule = testScheduleRepository.findById(request.getTestScheduleId())
+                .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND_DATA));
+
+        // Step 3: Tạo hoặc cập nhật RegisForm
+        RegisForm regisForm = Optional.ofNullable(request.getFormId())
+                .flatMap(regisFormRepository::findById)
+                .orElseGet(RegisForm::new);
+
+        boolean isNew = regisForm.getId() == null;
+        if (isNew) {
+            if (testSchedule.getRegistrationCount() >= testSchedule.getMaxCount()) {
+                throw new AppException(ErrorCode.REGISTRATION_FULL);
+            }
+            testSchedule.setRegistrationCount(testSchedule.getRegistrationCount() + 1);
+        }
+
+        regisForm.setDor(request.getDate());
+        regisForm.setStatus(request.getStatus());
+        regisForm.setRegistrant(registrant);
+        regisForm.setStaff(staff);
+        regisForm.setTestSchedule(testSchedule);
+        regisForm = regisFormRepository.save(regisForm);
+
+        // Step 4: Thêm Candidate và gắn RegisForm
+        RegisForm finalRegisForm = regisForm;
         List<Candidate> newCandidates = request.getCandidates().stream()
                 .map(c -> {
                     Candidate candidate = new Candidate();
@@ -54,31 +79,12 @@ public class RegisFormService {
                     candidate.setPhone(c.getPhone());
                     candidate.setAddress(c.getAddress());
                     candidate.setDob(c.getDob());
-                    candidate.setRegistrant(finalRegistrant);
+                    candidate.setRegisForm(finalRegisForm);
                     return candidate;
                 }).toList();
         candidateRepository.saveAll(newCandidates);
 
-        // Step 3: Lấy Staff, TestSchedule
-        Staff staff = staffRepository.findById(request.getStaffId())
-                .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND_DATA));
-        TestSchedule testSchedule = testScheduleRepository.findById(request.getTestScheduleId())
-                .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND_DATA));
-
-        // Step 4: Tạo hoặc cập nhật RegisForm
-        RegisForm regisForm = Optional.ofNullable(request.getFormId())
-                .flatMap(regisFormRepository::findById)
-                .orElseGet(RegisForm::new);
-
-        regisForm.setDor(request.getDate());
-        regisForm.setStatus(request.getStatus());
-        regisForm.setRegistrant(registrant);
-        regisForm.setStaff(staff);
-        regisForm.setTestSchedule(testSchedule);
-
-        regisForm = regisFormRepository.save(regisForm);
-
-        // Step 5: Tạo response đầy đủ
+        // Step 5: Tạo response
         return RegisFormFullResponse.builder()
                 .formId(regisForm.getId())
                 .date(regisForm.getDor())
@@ -124,7 +130,7 @@ public class RegisFormService {
                 .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND_DATA));
 
         Registrant registrant = form.getRegistrant();
-        List<Candidate> candidates = registrant.getCandidates();
+        List<Candidate> candidates = form.getCandidates();
 
         return RegisFormFullResponse.builder()
                 .formId(form.getId())
@@ -166,13 +172,12 @@ public class RegisFormService {
                 .build();
     }
 
-
     public List<RegisFormFullResponse> getAll() {
         List<RegisForm> regisForms = regisFormRepository.findAll();
 
         return regisForms.stream().map(form -> {
             Registrant registrant = form.getRegistrant();
-            List<Candidate> candidates = registrant.getCandidates();
+            List<Candidate> candidates = form.getCandidates();
 
             return RegisFormFullResponse.builder()
                     .formId(form.getId())

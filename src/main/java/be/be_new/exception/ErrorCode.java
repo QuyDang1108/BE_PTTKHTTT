@@ -5,11 +5,13 @@ import org.springframework.http.HttpStatus;
 
 @Getter
 public enum ErrorCode {
-    USER_EXISTED(1001, "user existed", HttpStatus.BAD_REQUEST),
-    USER_NOT_EXISTS(1005, "user not exists", HttpStatus.BAD_REQUEST),
-    UNAUTHENTICATED(1006, "Unauthenticated", HttpStatus.INTERNAL_SERVER_ERROR),
-    NOT_FOUND_DATA(400, "not found data", HttpStatus.BAD_REQUEST),
-    UNCATEGORIZED_EXCEPTION(9999, "Uncategorized error", HttpStatus.INTERNAL_SERVER_ERROR);
+    USER_EXISTED(1001, "User existed", HttpStatus.BAD_REQUEST),
+    USER_NOT_EXISTS(1005, "User not exists", HttpStatus.BAD_REQUEST),
+    UNAUTHENTICATED(1006, "Unauthenticated", HttpStatus.UNAUTHORIZED),
+    NOT_FOUND_DATA(400, "Not found data", HttpStatus.BAD_REQUEST),
+    UNCATEGORIZED_EXCEPTION(9999, "Uncategorized error", HttpStatus.INTERNAL_SERVER_ERROR),
+    PAYMENT_NOT_COMPLETED(1007, "Payment not completed", HttpStatus.BAD_REQUEST),
+    REGISTRATION_FULL(1008, "Registration for test schedule is full", HttpStatus.BAD_REQUEST);
 
     private final int code;
     private final String message;

@@ -179,7 +179,7 @@ public class DataInitializer {
             cand1.setEmail("c@gmail.com");
             cand1.setAddress("Hue");
             cand1.setDob(LocalDate.of(2000, 3, 15));
-            cand1.setRegistrant(reg1);
+            cand1.setRegisForm(rf1);
 
             Candidate cand2 = new Candidate();
             cand2.setName("Pham Thi D");
@@ -187,18 +187,18 @@ public class DataInitializer {
             cand2.setEmail("d@gmail.com");
             cand2.setAddress("Da Nang");
             cand2.setDob(LocalDate.of(2001, 6, 20));
-            cand2.setRegistrant(reg2);
+            cand2.setRegisForm(rf2);
 
             candidateRepo.saveAll(List.of(cand1, cand2));
 
             // === 8. ExaminationPermit ===
             ExaminationPermit ep1 = new ExaminationPermit();
-            ep1.setDoc("2025-07-05");
+            ep1.setDoc(LocalDate.of(2025, 7, 5));
             ep1.setCandidate(cand1);
             ep1.setTestSchedule(ts1);
 
             ExaminationPermit ep2 = new ExaminationPermit();
-            ep2.setDoc("2025-07-06");
+            ep2.setDoc(LocalDate.of(2025, 7, 6));
             ep2.setCandidate(cand2);
             ep2.setTestSchedule(ts2);
 

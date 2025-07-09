@@ -24,8 +24,8 @@ public class Candidate {
     private LocalDate dob;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "registrant_id", nullable = false)
-    private Registrant registrant;
+    @JoinColumn(name = "regis_form_id", nullable = false)
+    private RegisForm regisForm;
 
     @OneToOne(fetch = FetchType.LAZY)
     private ExaminationPermit examinationPermit;

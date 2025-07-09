@@ -23,58 +23,67 @@ import javax.crypto.spec.SecretKeySpec;
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
-    private final String[] PUBLIC_ENDPOINTS = {
-            "/users",
+
+    private static final String[] PUBLIC_ENDPOINTS = {
             "/logins",
-            "/registers",
             "/schedules",
             "/payments",
-            "/forms",
             "/regis",
-            "/regis/*",
-            "/candidates",
-            "/candidates/*"
     };
+
+    private static final String[] SWAGGER_WHITELIST = {
+            "/swagger-ui.html",
+            "/swagger-ui/**",
+            "/v3/api-docs/**",
+            "/swagger-resources/**",
+            "/webjars/**"
+    };
+
     @Value("${jwt.signerKey}")
     private String SIGNER_KEY;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-
-        httpSecurity.authorizeHttpRequests(request ->
-                request.requestMatchers(HttpMethod.POST,PUBLIC_ENDPOINTS).permitAll()
-                        .requestMatchers(HttpMethod.GET,PUBLIC_ENDPOINTS).permitAll()
-                        .requestMatchers(HttpMethod.PUT,PUBLIC_ENDPOINTS).permitAll()
-                        .anyRequest().authenticated());
-        httpSecurity.oauth2ResourceServer(oauth2 ->
-                oauth2.jwt(jwtConfigurer -> jwtConfigurer
-                        .decoder(jwtDecoder())
-                        .jwtAuthenticationConverter(jwtAuthenticationConverter())
+        httpSecurity
+                .authorizeHttpRequests(request -> request
+                        .requestMatchers(SWAGGER_WHITELIST).permitAll()
+                        .requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINTS).permitAll()
+                        .requestMatchers(HttpMethod.GET, PUBLIC_ENDPOINTS).permitAll()
+                        .requestMatchers(HttpMethod.PUT, PUBLIC_ENDPOINTS).permitAll()
+                        .anyRequest().authenticated()
                 )
-        );
-        httpSecurity.csrf(AbstractHttpConfigurer::disable);
+                .oauth2ResourceServer(oauth2 -> oauth2
+                        .jwt(jwt -> jwt
+                                .decoder(jwtDecoder())
+                                .jwtAuthenticationConverter(jwtAuthenticationConverter())
+                        )
+                )
+                .csrf(AbstractHttpConfigurer::disable);
+
         return httpSecurity.build();
     }
+
     @Bean
-    JwtDecoder jwtDecoder(){
-        SecretKeySpec secretKeySpec = new SecretKeySpec(SIGNER_KEY.getBytes(),"HS512");
+    public JwtDecoder jwtDecoder() {
+        SecretKeySpec secretKeySpec = new SecretKeySpec(SIGNER_KEY.getBytes(), "HS512");
         return NimbusJwtDecoder
                 .withSecretKey(secretKeySpec)
                 .macAlgorithm(MacAlgorithm.HS512)
                 .build();
     }
+
     @Bean
-    PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(10);
     }
+
     @Bean
-    JwtAuthenticationConverter jwtAuthenticationConverter() {
-        JwtGrantedAuthoritiesConverter jwtGrantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
-        jwtGrantedAuthoritiesConverter.setAuthorityPrefix("ROLE_");
+    public JwtAuthenticationConverter jwtAuthenticationConverter() {
+        JwtGrantedAuthoritiesConverter grantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
+        grantedAuthoritiesConverter.setAuthorityPrefix("ROLE_");
 
-        JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
-        jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(jwtGrantedAuthoritiesConverter);
-
-        return jwtAuthenticationConverter;
+        JwtAuthenticationConverter jwtConverter = new JwtAuthenticationConverter();
+        jwtConverter.setJwtGrantedAuthoritiesConverter(grantedAuthoritiesConverter);
+        return jwtConverter;
     }
 }

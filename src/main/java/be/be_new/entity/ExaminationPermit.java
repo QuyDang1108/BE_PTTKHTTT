@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Entity
 @Data
 @Builder
@@ -16,7 +18,7 @@ public class ExaminationPermit {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "permit_id")
     private Integer id;
-    private String doc; // Ngày tạo
+    private LocalDate doc; // Ngày tạo
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "candidate_id", nullable = false)

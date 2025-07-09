@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Data
@@ -35,4 +36,7 @@ public class RegisForm {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "test_id", nullable = false)
     private TestSchedule testSchedule;
+
+    @OneToMany(mappedBy = "regisForm", fetch = FetchType.LAZY)
+    private List<Candidate> candidates;
 }

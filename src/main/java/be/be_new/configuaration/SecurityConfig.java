@@ -25,11 +25,12 @@ import javax.crypto.spec.SecretKeySpec;
 public class SecurityConfig {
 
     private static final String[] PUBLIC_ENDPOINTS = {
-            "/logins",
-            "/schedules",
-            "/payments",
-            "/regis",
-            "/certifications",
+            "/logins/**",
+            "/schedules/**",
+            "/payments/**",
+            "/regis/**",
+            "/certifications/**",
+            "/permits/**",
     };
 
     private static final String[] SWAGGER_WHITELIST = {

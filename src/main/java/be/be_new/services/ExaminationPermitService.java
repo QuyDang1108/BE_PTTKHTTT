@@ -1,5 +1,6 @@
 package be.be_new.services;
 
+import be.be_new.dto.request.CandidateRequest;
 import be.be_new.dto.response.ExaminationPermitResponse;
 import be.be_new.entity.Candidate;
 import be.be_new.entity.ExaminationPermit;
@@ -23,6 +24,8 @@ public class ExaminationPermitService {
     private final RegisFormRepository regisFormRepository;
     private final PaymentReceiptRepository paymentReceiptRepository;
     private final ExaminationPermitRepository examinationPermitRepository;
+    private final CandidateRepository candidateRepository;
+    private final TestScheduleRepository testScheduleRepository;
 
     @Transactional
     public List<ExaminationPermitResponse> createFromRegisForm(Integer regisformId) {
@@ -98,5 +101,34 @@ public class ExaminationPermitService {
                 .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND_DATA));
         return mapToResponse(permit);
     }
+
+    public Integer createExaminationPermitBasedOnCandidates(List<CandidateRequest> requests) {
+        int createdCount = 0;
+        for (CandidateRequest request : requests) {
+            RegisForm regisForm = regisFormRepository.getById(request.getRegisId());
+            if (regisForm == null) {
+                throw new AppException(ErrorCode.NOT_FOUND_DATA);
+            }
+
+            Candidate candidate = candidateRepository.getById(request.getId());
+            if (candidate == null) {
+                throw new AppException(ErrorCode.NOT_FOUND_DATA);
+            }
+
+            ExaminationPermit examinationPermit = new ExaminationPermit();
+            examinationPermit.setCandidate(candidate);
+            examinationPermit.setDoc(LocalDate.now());
+            examinationPermit.setTestSchedule(regisForm.getTestSchedule());
+
+            ExaminationPermit examinationPermit1 = examinationPermitRepository.save(examinationPermit); // Lưu permit
+            Candidate savedCandidate = candidateRepository.getById(candidate.getId());
+            savedCandidate.setExaminationPermit(examinationPermit1);
+            candidateRepository.save(savedCandidate);
+            createdCount++; // Tăng đếm
+        }
+
+        return createdCount;
+    }
+
 }
 

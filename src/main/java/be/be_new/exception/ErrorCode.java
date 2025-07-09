@@ -11,7 +11,10 @@ public enum ErrorCode {
     NOT_FOUND_DATA(400, "Not found data", HttpStatus.BAD_REQUEST),
     UNCATEGORIZED_EXCEPTION(9999, "Uncategorized error", HttpStatus.INTERNAL_SERVER_ERROR),
     PAYMENT_NOT_COMPLETED(1007, "Payment not completed", HttpStatus.BAD_REQUEST),
-    REGISTRATION_FULL(1008, "Registration for test schedule is full", HttpStatus.BAD_REQUEST);
+    REGISTRATION_FULL(1008, "Registration for test schedule is full", HttpStatus.BAD_REQUEST),
+    CANCELLED_REGISFORM(1009, "RegisForm is cancelled", HttpStatus.BAD_REQUEST),
+    CAN_NOT_UPDATE(1011, "RegisForm is paid, can not update", HttpStatus.BAD_REQUEST),
+    NOT_PAY(1010, "Registration form has not been paid yet", HttpStatus.BAD_REQUEST);
 
     private final int code;
     private final String message;

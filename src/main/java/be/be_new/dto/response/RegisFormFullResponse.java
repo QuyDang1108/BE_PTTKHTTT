@@ -21,6 +21,7 @@ public class RegisFormFullResponse {
 
     private StaffInfo staff;
     private TestScheduleInfo testSchedule;
+    private List<CandidateInfo> candidates;
     private RegistrantInfo registrant;
 
     @Data
@@ -44,6 +45,7 @@ public class RegisFormFullResponse {
         private LocalTime time;
         private String room;
         private String certificationName;
+        private int certPrice;
     }
 
     @Data
@@ -61,7 +63,6 @@ public class RegisFormFullResponse {
         private String aoc;
         private String poc;
         private ERegistrantType type;
-        private List<CandidateInfo> candidates;
     }
 
     @Data

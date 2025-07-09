@@ -46,15 +46,6 @@ public class TestScheduleService {
         return toResponse(saved);
     }
 
-    public void increaseRegistrationCount(Integer testScheduleId) {
-        TestSchedule schedule = testScheduleRepository.findById(testScheduleId)
-                .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND_DATA));
-        if (schedule.getRegistrationCount() >= schedule.getMaxCount()) {
-            throw new AppException(ErrorCode.USER_EXISTED); // hoặc REGISTRATION_FULL như gợi ý trước
-        }
-        schedule.setRegistrationCount(schedule.getRegistrationCount() + 1);
-    }
-
     public List<TestScheduleResponse> findAll() {
         return testScheduleRepository.findAll()
                 .stream()
@@ -63,6 +54,8 @@ public class TestScheduleService {
     }
 
     private TestScheduleResponse toResponse(TestSchedule schedule) {
+        int price = certificationRepository.getById(schedule.getCertification().getId()).getPrice();
+
         return TestScheduleResponse.builder()
                 .id(schedule.getId())
                 .date(schedule.getDate())
@@ -73,6 +66,7 @@ public class TestScheduleService {
                 .nameTest(schedule.getNameTest())
                 .certificationId(schedule.getCertification().getId())
                 .certificationName(schedule.getCertification().getName())
+                .certPrice(price)
                 .build();
     }
 }

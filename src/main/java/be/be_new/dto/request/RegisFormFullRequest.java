@@ -16,7 +16,6 @@ public class RegisFormFullRequest {
     private LocalDate date;
     private String status;
     private ERegistrantType registrantType;
-
     private RegistrantInfo registrant;
     private List<CandidateInfo> candidates;
     private Integer staffId;

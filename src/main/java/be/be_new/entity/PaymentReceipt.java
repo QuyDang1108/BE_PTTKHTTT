@@ -17,7 +17,7 @@ public class PaymentReceipt {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "payment_receipt_id")
     private Integer id;
-    private float money;
+    private int money;
     private String dop;// ngày thanh toán
     private String status;
 

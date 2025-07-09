@@ -6,4 +6,5 @@ import lombok.Data;
 public class CertificationResponse {
     private Integer id;
     private String name;
+    private int price;
 }

@@ -19,6 +19,7 @@ public class Certification {
     @Column(name = "certification_id")
     private Integer id;
     private String name;
+    private int price;
 
     @OneToMany(mappedBy = "certification", fetch = FetchType.LAZY)
     private List<TestSchedule> testSchedules;

@@ -22,4 +22,5 @@ public class TestScheduleResponse {
     private String nameTest;
     private Integer certificationId;
     private String certificationName;
+    private int certPrice;
 }

@@ -1,7 +1,10 @@
 package be.be_new.controllers;
 
+import be.be_new.dto.request.CandidateRequest;
 import be.be_new.dto.response.ApiResponse;
+import be.be_new.dto.response.CandidateResponse;
 import be.be_new.dto.response.ExaminationPermitResponse;
+import be.be_new.services.CandidateService;
 import be.be_new.services.ExaminationPermitService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -22,6 +25,7 @@ import java.util.List;
 public class ExaminationPermitController {
 
     private final ExaminationPermitService examinationPermitService;
+    private final CandidateService candidateService;
 
     @PostMapping("/{id}")
     @Operation(
@@ -115,4 +119,26 @@ public class ExaminationPermitController {
                 .data(permit)
                 .build());
     }
+
+    @GetMapping("/list")
+    public ResponseEntity<ApiResponse<List<CandidateResponse>>> getCandidatesNotHavePermit() {
+        List<CandidateResponse> candidateResponses = candidateService.getCandidatesNotHavePermit();
+        return ResponseEntity.ok(ApiResponse.<List<CandidateResponse>>builder()
+                .code(HttpStatus.OK.value())
+                .message("Lấy danh sách thí sinh cần tạo phiếu dự thi thành công")
+                .data(candidateResponses)
+                .build());
+    }
+
+    @PostMapping("/list")
+    public ResponseEntity<ApiResponse<Integer>> saveCandidatesNotHavePermit(
+            @RequestBody List<CandidateRequest> requests) {
+        Integer amount = examinationPermitService.createExaminationPermitBasedOnCandidates(requests);
+        return ResponseEntity.ok(ApiResponse.<Integer>builder()
+                .code(HttpStatus.OK.value())
+                .message("Tạo phiếu dự thi thành công.")
+                .data(amount)
+                .build());
+    }
+
 }

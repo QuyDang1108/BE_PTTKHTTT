@@ -30,11 +30,26 @@ public class PaymentReceiptService {
         RegisForm regisForm = regisFormRepository.findById(request.getFormId())
                 .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND_DATA));
 
+        if ("Đã hủy".equalsIgnoreCase(regisForm.getStatus())) {
+            throw new AppException(ErrorCode.CANCELLED_REGISFORM);
+        }
+
         Staff staff = staffRepository.findById(request.getStaffId())
                 .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND_DATA));
 
+        // Lấy đơn giá từ chứng chỉ
+        int unitPrice = regisForm.getTestSchedule().getCertification().getPrice();
+        int candidateCount = regisForm.getCandidates().size();
+
+        int money;
+        if (regisForm.getRegistrant().getType().name().equals("DON_VI")) {
+            money = unitPrice * candidateCount; // tính theo số lượng
+        } else {
+            money = unitPrice; // cá nhân
+        }
+        money -= request.getReducePrice();
         PaymentReceipt receipt = new PaymentReceipt();
-        receipt.setMoney(request.getMoney());
+        receipt.setMoney(money);
         receipt.setDop(request.getDop());
         receipt.setStatus(request.getStatus());
         receipt.setPaymentType(request.getPaymentType());

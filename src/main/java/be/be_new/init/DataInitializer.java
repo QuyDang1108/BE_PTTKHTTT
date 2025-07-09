@@ -66,9 +66,11 @@ public class DataInitializer {
             // === 2. Certification ===
             Certification cert1 = new Certification();
             cert1.setName("MOS Word");
+            cert1.setPrice(100000);
 
             Certification cert2 = new Certification();
             cert2.setName("MOS Excel");
+            cert2.setPrice(200000);
 
             certificationRepo.saveAll(List.of(cert1, cert2));
 
@@ -165,7 +167,7 @@ public class DataInitializer {
             PaymentReceipt pr2 = new PaymentReceipt();
             pr2.setMoney(600000);
             pr2.setDop("2025-07-03");
-            pr2.setStatus("Chờ xác nhận");
+            pr2.setStatus("Chưa thanh toán");
             pr2.setPaymentType(EPaymentType.TT);
             pr2.setRegisForm(rf2);
             pr2.setStaff(staff1); // Nhân viên kế toán

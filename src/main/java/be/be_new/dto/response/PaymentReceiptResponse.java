@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class PaymentReceiptResponse {
     private Integer id;
-    private float money;
+    private int money;
     private String dop; // ngày thanh toán
     private String status;
     private EPaymentType paymentType;

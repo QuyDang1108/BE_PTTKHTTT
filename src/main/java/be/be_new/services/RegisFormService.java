@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -22,6 +23,8 @@ public class RegisFormService {
     private final StaffRepository staffRepository;
     private final TestScheduleRepository testScheduleRepository;
     private final CandidateRepository candidateRepository;
+    private final PaymentReceiptRepository paymentReceiptRepository;
+    private final CertificationRepository certificationRepository;
 
     @Transactional
     public RegisFormFullResponse createOrUpdate(RegisFormFullRequest request) {
@@ -61,6 +64,11 @@ public class RegisFormService {
                 throw new AppException(ErrorCode.REGISTRATION_FULL);
             }
             testSchedule.setRegistrationCount(testSchedule.getRegistrationCount() + 1);
+        } else {
+            if (Objects.equals(regisForm.getStatus(), "Đã thanh toán")) {
+                throw new AppException(ErrorCode.CAN_NOT_UPDATE);
+            }
+
         }
 
         regisForm.setDor(request.getDate());
@@ -101,6 +109,7 @@ public class RegisFormService {
                         .date(testSchedule.getDate())
                         .time(testSchedule.getTime())
                         .room(testSchedule.getRoom())
+                        .certPrice(testSchedule.getCertification().getPrice())
                         .certificationName(testSchedule.getCertification().getName())
                         .build())
                 .registrant(RegisFormFullResponse.RegistrantInfo.builder()
@@ -114,15 +123,15 @@ public class RegisFormService {
                         .aoc(registrant.getAoc())
                         .poc(registrant.getPoc())
                         .type(registrant.getType())
-                        .candidates(newCandidates.stream().map(c -> RegisFormFullResponse.CandidateInfo.builder()
-                                .id(c.getId())
-                                .name(c.getName())
-                                .email(c.getEmail())
-                                .phone(c.getPhone())
-                                .address(c.getAddress())
-                                .dob(c.getDob())
-                                .build()).toList())
                         .build())
+                .candidates(newCandidates.stream().map(c -> RegisFormFullResponse.CandidateInfo.builder()
+                        .id(c.getId())
+                        .name(c.getName())
+                        .email(c.getEmail())
+                        .phone(c.getPhone())
+                        .address(c.getAddress())
+                        .dob(c.getDob())
+                        .build()).toList())
                 .build();
     }
 
@@ -148,6 +157,7 @@ public class RegisFormService {
                         .date(form.getTestSchedule().getDate())
                         .time(form.getTestSchedule().getTime())
                         .room(form.getTestSchedule().getRoom())
+                        .certPrice(form.getTestSchedule().getCertification().getPrice())
                         .certificationName(form.getTestSchedule().getCertification().getName())
                         .build())
                 .registrant(RegisFormFullResponse.RegistrantInfo.builder()
@@ -161,6 +171,7 @@ public class RegisFormService {
                         .aoc(registrant.getAoc())
                         .poc(registrant.getPoc())
                         .type(registrant.getType())
+                        .build())
                         .candidates(candidates.stream().map(c -> RegisFormFullResponse.CandidateInfo.builder()
                                 .id(c.getId())
                                 .name(c.getName())
@@ -169,7 +180,6 @@ public class RegisFormService {
                                 .address(c.getAddress())
                                 .dob(c.getDob())
                                 .build()).toList())
-                        .build())
                 .build();
     }
 
@@ -195,6 +205,7 @@ public class RegisFormService {
                             .date(form.getTestSchedule().getDate())
                             .time(form.getTestSchedule().getTime())
                             .room(form.getTestSchedule().getRoom())
+                            .certPrice(form.getTestSchedule().getCertification().getPrice())
                             .certificationName(form.getTestSchedule().getCertification().getName())
                             .build())
                     .registrant(RegisFormFullResponse.RegistrantInfo.builder()
@@ -208,6 +219,7 @@ public class RegisFormService {
                             .aoc(registrant.getAoc())
                             .poc(registrant.getPoc())
                             .type(registrant.getType())
+                            .build())
                             .candidates(candidates.stream().map(c -> RegisFormFullResponse.CandidateInfo.builder()
                                     .id(c.getId())
                                     .name(c.getName())
@@ -216,8 +228,23 @@ public class RegisFormService {
                                     .address(c.getAddress())
                                     .dob(c.getDob())
                                     .build()).toList())
-                            .build())
                     .build();
         }).toList();
+    }
+
+    @Transactional
+    public void updatePaymentStatusForForm(Integer formId, String status) {
+        RegisForm form = regisFormRepository.findById(formId)
+                .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND_DATA));
+
+        // Kiểm tra xem đã có phiếu thanh toán chưa
+        boolean hasPayment = paymentReceiptRepository.findByRegisForm(form).isPresent();
+
+        if (!hasPayment) {
+            throw new AppException(ErrorCode.NOT_PAY);
+        }
+
+        form.setStatus(status);
+        regisFormRepository.save(form);
     }
 }

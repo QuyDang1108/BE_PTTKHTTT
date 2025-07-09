@@ -143,4 +143,53 @@ public class RegisFormController {
                 .data(responseList)
                 .build());
     }
+
+    @PutMapping("/{formId}/status")
+    @Operation(
+            summary = "Cập nhật trạng thái phiếu đăng ký nếu đã thanh toán",
+            description = "Chỉ cho phép cập nhật trạng thái nếu phiếu đăng ký đã có phiếu thanh toán.",
+            responses = {
+                    @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                            responseCode = "200",
+                            description = "Cập nhật trạng thái thành công",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = ApiResponse.class),
+                                    examples = @ExampleObject(
+                                            value = """
+                                                {
+                                                  "code": 200,
+                                                  "message": "Status updated successfully"
+                                                }"""
+                                    )
+                            )
+                    ),
+                    @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                            responseCode = "400",
+                            description = "Phiếu đăng ký chưa được thanh toán hoặc không tồn tại",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = ApiResponse.class),
+                                    examples = @ExampleObject(
+                                            value = """
+                                                {
+                                                  "code": 400,
+                                                  "message": "Registration form has not been paid yet."
+                                                }"""
+                                    )
+                            )
+                    )
+            }
+    )
+    public ResponseEntity<ApiResponse<Void>> updateStatusIfPaid(
+            @PathVariable Integer formId,
+            @RequestParam String status
+    ) {
+        regisFormService.updatePaymentStatusForForm(formId, status);
+        return ResponseEntity.ok(ApiResponse.<Void>builder()
+                .code(HttpStatus.OK.value())
+                .message("Cập nhật thành công!")
+                .build());
+    }
+
 }

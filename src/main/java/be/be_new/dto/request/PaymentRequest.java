@@ -11,9 +11,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PaymentRequest {
-    private float money;
     private String dop; // Ngày thanh toán
     private String status;
+    private int reducePrice;
     private EPaymentType paymentType;
     private Integer staffId;
     private Integer formId;

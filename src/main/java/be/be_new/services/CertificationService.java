@@ -20,6 +20,7 @@ public class CertificationService {
                     CertificationResponse dto = new CertificationResponse();
                     dto.setId(cert.getId());
                     dto.setName(cert.getName());
+                    dto.setPrice(cert.getPrice());
                     return dto;
                 })
                 .collect(Collectors.toList());

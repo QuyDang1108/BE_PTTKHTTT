@@ -36,9 +36,9 @@ public class PaymentReceiptController {
                             examples = @ExampleObject(
                                     value = """
                                             {
-                                              "money": 500000,
                                               "dop": "2025-08-01",
                                               "status": "Đã thanh toán",
+                                              "reducePrice": "180000",
                                               "paymentType": "Chuyển khoản",
                                               "formId": 1,
                                               "staffId": 2

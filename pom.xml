@@ -84,11 +84,6 @@
 		</dependency>
 	</dependencies>
 
-	<dependency>
-		<groupId>com.fasterxml.jackson.datatype</groupId>
-		<artifactId>jackson-datatype-jsr310</artifactId>
-	</dependency>
-
 	<build>
 		<plugins>
 			<!-- Maven Compiler Plugin -->

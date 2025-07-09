@@ -63,7 +63,8 @@ public class PaymentReceiptController {
                     )
             }
     )
-    public ResponseEntity<ApiResponse<PaymentReceiptResponse>> createPayment(@Valid @RequestBody PaymentRequest request) {
+    public ResponseEntity<ApiResponse<PaymentReceiptResponse>> createPayment(
+            @Valid @RequestBody PaymentRequest request) {
         PaymentReceiptResponse response = paymentReceiptService.createFromRegisForm(request);
         return ResponseEntity.ok(ApiResponse.<PaymentReceiptResponse>builder()
                 .code(HttpStatus.OK.value())

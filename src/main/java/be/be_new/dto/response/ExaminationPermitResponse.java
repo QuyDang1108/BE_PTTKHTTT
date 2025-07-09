@@ -1,13 +1,17 @@
 package be.be_new.dto.response;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ExaminationPermitResponse {
     private Integer permitId;
     private LocalDate doc;
@@ -17,6 +21,8 @@ public class ExaminationPermitResponse {
 
     @Data
     @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class CandidateInfo {
         private Integer id;
         private String name;
@@ -28,6 +34,8 @@ public class ExaminationPermitResponse {
 
     @Data
     @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class TestScheduleInfo {
         private Integer id;
         private String nameTest;

@@ -1,8 +1,10 @@
 package be.be_new.dto.response;
 
 import be.be_new.enums.ERegistrantType;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -10,6 +12,8 @@ import java.util.List;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class RegisFormFullResponse {
     private Integer formId;
     private LocalDate date;
@@ -21,6 +25,8 @@ public class RegisFormFullResponse {
 
     @Data
     @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class StaffInfo {
         private Integer id;
         private String name;
@@ -29,6 +35,8 @@ public class RegisFormFullResponse {
 
     @Data
     @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class TestScheduleInfo {
         private Integer id;
         private String nameTest;
@@ -40,6 +48,8 @@ public class RegisFormFullResponse {
 
     @Data
     @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class RegistrantInfo {
         private Integer id;
         private String name;
@@ -56,6 +66,8 @@ public class RegisFormFullResponse {
 
     @Data
     @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class CandidateInfo {
         private Integer id;
         private String name;

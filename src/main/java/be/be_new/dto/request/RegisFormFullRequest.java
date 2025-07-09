@@ -1,12 +1,16 @@
 package be.be_new.dto.request;
 
 import be.be_new.enums.ERegistrantType;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class RegisFormFullRequest {
     private Integer formId;
     private LocalDate date;
@@ -19,6 +23,8 @@ public class RegisFormFullRequest {
     private Integer testScheduleId;
 
     @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class RegistrantInfo {
         private Integer id;
         private String name;
@@ -32,6 +38,8 @@ public class RegisFormFullRequest {
     }
 
     @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class CandidateInfo {
         private Integer id;
         private String name;

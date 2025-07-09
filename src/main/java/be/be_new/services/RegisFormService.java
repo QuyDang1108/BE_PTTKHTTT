@@ -26,7 +26,8 @@ public class RegisFormService {
     @Transactional
     public RegisFormFullResponse createOrUpdate(RegisFormFullRequest request) {
         // Step 1: Lấy hoặc tạo Registrant
-        Registrant registrant = Optional.ofNullable(request.getRegistrant().getId())
+        Registrant registrant = Optional.ofNullable(request.getRegistrant())
+                .map(RegisFormFullRequest.RegistrantInfo::getId)
                 .flatMap(registrantRepository::findById)
                 .orElseGet(Registrant::new);
 

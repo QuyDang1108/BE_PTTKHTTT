@@ -65,11 +65,11 @@ public class DataInitializer {
 
             // === 2. Certification ===
             Certification cert1 = new Certification();
-            cert1.setName("MOS Word");
+            cert1.setName("Ngoại ngữ");
             cert1.setPrice(100000);
 
             Certification cert2 = new Certification();
-            cert2.setName("MOS Excel");
+            cert2.setName("Tin học");
             cert2.setPrice(200000);
 
             certificationRepo.saveAll(List.of(cert1, cert2));
@@ -81,7 +81,7 @@ public class DataInitializer {
             ts1.setRoom("A101");
             ts1.setMaxCount(30);
             ts1.setRegistrationCount(0);
-            ts1.setNameTest("Ca 1");
+            ts1.setNameTest("VSTEP B1");
             ts1.setCertification(cert1);
 
             TestSchedule ts2 = new TestSchedule();
@@ -90,10 +90,65 @@ public class DataInitializer {
             ts2.setRoom("B202");
             ts2.setMaxCount(25);
             ts2.setRegistrationCount(0);
-            ts2.setNameTest("Ca 2");
+            ts2.setNameTest("MOS");
             ts2.setCertification(cert2);
 
-            testScheduleRepo.saveAll(List.of(ts1, ts2));
+            TestSchedule ts3 = new TestSchedule();
+            ts3.setDate(LocalDate.of(2025, 8, 16));
+            ts3.setTime(LocalTime.of(9, 0));
+            ts3.setRoom("C303");
+            ts3.setMaxCount(20);
+            ts3.setRegistrationCount(0);
+            ts3.setNameTest("IELTS");
+            ts3.setCertification(cert1);
+
+            TestSchedule ts4 = new TestSchedule();
+            ts4.setDate(LocalDate.of(2025, 8, 17));
+            ts4.setTime(LocalTime.of(13, 30));
+            ts4.setRoom("D101");
+            ts4.setMaxCount(28);
+            ts4.setRegistrationCount(0);
+            ts4.setNameTest("VSTEP B2");
+            ts4.setCertification(cert1);
+
+            TestSchedule ts5 = new TestSchedule();
+            ts5.setDate(LocalDate.of(2025, 8, 18));
+            ts5.setTime(LocalTime.of(14, 0));
+            ts5.setRoom("E202");
+            ts5.setMaxCount(30);
+            ts5.setRegistrationCount(0);
+            ts5.setNameTest("VSTEP C1");
+            ts5.setCertification(cert1);
+
+            TestSchedule ts6 = new TestSchedule();
+            ts6.setDate(LocalDate.of(2025, 8, 19));
+            ts6.setTime(LocalTime.of(15, 0));
+            ts6.setRoom("F303");
+            ts6.setMaxCount(26);
+            ts6.setRegistrationCount(0);
+            ts6.setNameTest("IC3");
+            ts6.setCertification(cert2);
+
+            TestSchedule ts7 = new TestSchedule();
+            ts7.setDate(LocalDate.of(2025, 8, 20));
+            ts7.setTime(LocalTime.of(10, 0));
+            ts7.setRoom("G404");
+            ts7.setMaxCount(32);
+            ts7.setRegistrationCount(0);
+            ts7.setNameTest("ICDL");
+            ts7.setCertification(cert2);
+
+            TestSchedule ts8 = new TestSchedule();
+            ts8.setDate(LocalDate.of(2025, 8, 21));
+            ts8.setTime(LocalTime.of(11, 0));
+            ts8.setRoom("H505");
+            ts8.setMaxCount(22);
+            ts8.setRegistrationCount(0);
+            ts8.setNameTest("OPAC");
+            ts8.setCertification(cert2);
+
+
+            testScheduleRepo.saveAll(List.of(ts1, ts2, ts3, ts4, ts5, ts6, ts7, ts8));
 
             // === 4. Staff ===
             Staff staff1 = new Staff();

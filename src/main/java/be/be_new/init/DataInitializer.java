@@ -196,14 +196,14 @@ public class DataInitializer {
             // === 5. RegisForm ===
             RegisForm rf1 = new RegisForm();
             rf1.setDor(LocalDate.of(2025, 5, 16));
-            rf1.setStatus("Đã xác nhận");
+            rf1.setStatus("Đã thanh toán");
             rf1.setRegistrant(reg1);
             rf1.setStaff(staff2); // Nhân viên tiếp nhận
             rf1.setTestSchedule(ts1);
 
             RegisForm rf2 = new RegisForm();
             rf2.setDor(LocalDate.of(2025, 7, 2));
-            rf2.setStatus("Đang xử lý");
+            rf2.setStatus("Đã thanh toán");
             rf2.setRegistrant(reg2);
             rf2.setStaff(staff2); // Nhân viên tiếp nhận
             rf2.setTestSchedule(ts2);
